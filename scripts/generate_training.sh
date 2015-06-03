@@ -4,6 +4,8 @@
 fonts=(`convert -list font | grep Font | tr -s ' ' | cut -d\  -f 3`)
 stretches=(`convert -list stretch`)
 
+rm data.csv
+
 i=0
 while [[ $# -gt 0 ]]; do
     word="$1"
@@ -23,12 +25,18 @@ while [[ $# -gt 0 ]]; do
     font=${fonts[$RANDOM % ${#fonts[@]} ]}
     stretch=${stretches[$RANDOM % ${#stretches[@]} ]}
     point_size=72
-    printf "%s,%s\n" ${word} ${font}
-    convert -size 560x85 xc:"rgba(${b_red},${b_green},${b_blue,${b_alpha}})" -font "${font}" -pointsize ${point_size} \
-            -stretch "${stretch}" -draw "text 25,60 '${word}'" -channel RGBA -gaussian 0x6 \
-            -fill "rgba(${f_red},${f_green},${f_blue,${f_alpha}})" -stroke "rgba(${s_red},${s_green},${s_blue},${s_alpha})" \
-            -draw "text 20,55 '${word}'" \
-            "${i}_${word}.png"
+    printf "\"%s\",%s\n" ${word} ${font} >> data.csv
+    convert -size 560x105 xc:"rgba(${b_red},${b_green},${b_blue,${b_alpha}})" \
+            -font "${font}" \
+            -pointsize ${point_size} \
+            -stretch "${stretch}" \
+            -draw "text 35,80 '${word}'" \
+            -channel RGBA \
+            -gaussian 0x6 \
+            -fill "rgba(${f_red},${f_green},${f_blue,${f_alpha}})" \
+            -stroke "rgba(${s_red},${s_green},${s_blue},${s_alpha})" \
+            -draw "text 30,75 '${word}'" \
+            "${i}.png"
     i=$((i+1))
     shift
 done
