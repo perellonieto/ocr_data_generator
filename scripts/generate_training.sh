@@ -25,7 +25,7 @@ while [[ $# -gt 0 ]]; do
     font=${fonts[$RANDOM % ${#fonts[@]} ]}
     stretch=${stretches[$RANDOM % ${#stretches[@]} ]}
     point_size=72
-    printf "\"%s\",%s\n" ${word} ${font} >> data.csv
+    printf "%s,\"%s\",%s\n" ${i} ${word} ${font} >> data.csv
     convert -size 560x105 xc:"rgba(${b_red},${b_green},${b_blue,${b_alpha}})" \
             -font "${font}" \
             -pointsize ${point_size} \
